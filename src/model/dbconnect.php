@@ -1,10 +1,10 @@
 <?php
 // データベース接続関数
 function db_connect(){
-    $host     = "127.0.0.1";
+    $host     = "db";
     $dbname   = "learningvulndb2";
     $user     = "root";
-    $password = "";
+    $password = "password";
 
     // MySQL接続
     $conn = mysqli_connect($host, $user, $password, $dbname);
