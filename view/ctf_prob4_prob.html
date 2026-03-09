@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Learning Vuln</title>
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="../css/styles.css"/>
+        <link rel="stylesheet" href="../css/my-sheet.css">
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+        />
+
+        <style>
+            body {
+                background-color: #cde2f5; /* うす水色 背景色指定 */
+            }
+        </style>
+        
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand">Try Harder!</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    メニュー
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="learnmenu.php" target="_blank" rel="noopener noreferrer">学習パートを別タブで開く</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead ">
+            <div class="container">
+                <h1>第4問問題ページ</h1>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section">
+            <div class="container">
+                <div class="text-center">
+                    <div class="col-md-8 mx-auto">
+                        <h2 class="section-heading text-bg-primary mb-4">　</h2>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card text-center shadow-sm mb-4 border border-dark border-2 " style="background-color: #cde2f5;">
+                            <div class="card-body">
+                                <h4 class="card-title">SQLインジェクションの応用</h4>
+                                <p class="card-text fs-5">シナリオ：</p>
+                                <p class="card-text text-start">&emsp;あなたはとあるサービスのログイン画面を見ているようです。またしても管理者によって重要なファイルが管理されているようです。</p>
+                                <p class="card-text fs-5">あなたの目的：</p>
+                                <p class="card-text text-start">&emsp;保存されているアカウント情報は不明です。第1問同様、攻撃手法を駆使してフラグの獲得を目指してください。…しかし、第1問ほど簡単ではないようです。新しい知識を取り入れつつ解いてみましょう。</p>
+                                <p class="card-text fs-5">成功条件：</p>
+                                <p class="card-text text-start">&emsp;あるファイルの名前が今回のフラグです。フラグは { } で囲まれた文字列で、{ } も含めて答えを入力してください。</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <br>
+                        <div class="text-center">
+                            <div class="border border-secondary border-2 rounded-3 ">
+                                <form action="ctf_prob4_prob.php#search_form" method="post" id="search_form" autocomplete="off">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>ユーザー名</th>
+                                                <td><input type="text" name="user_name" value="<?= $name_input ?>" /></td>
+                                                <td></td>
+                                            <th>パスワード</th>
+                                                <td><input type="text" name="user_pass" value="<?= $pass_input ?>" /></td>
+                                                <td>
+                                                    <div class="btn-sm">
+                                                        <input type="submit" value="検索" />
+                                                    </div>
+                                                </td>
+                                        </tr>
+                                    </table>
+                                </form>
+                                <?php if (!empty($login_message)): ?>
+                                    <div class="alert alert-info" role="alert">
+                                        <?= $login_message ?>
+                                    </div>
+                                <?php endif; ?>
+
+                                <h5>入力されたパスワードに該当するユーザー</h5>
+                                    <table class="table table-striped">
+                                    <tr>
+                                        <th>ユーザー名</th>
+                                        <th>ユーザーの権限</th>
+                                        <th>ユーザーのパスワード</th>
+                                    </tr>
+                                    <?php if (!empty($search_result)) { 
+                                        $data = $search_result[0]; // 先頭の1行だけを変数に入れる
+                                    ?>
+                                    <tr>
+                                        <td><?php print $data['user_name']; ?></td>
+                                        <td><?php print $data['user_class']; ?></td>
+                                        <td><?php print $data['user_pass']; ?></td>
+                                    </tr>
+                                    <?php } else { ?>
+                                    <tr>
+                                        <td colspan="4">-</td>
+                                    </tr>
+                                    <?php } ?>
+                                    </table>
+                            </div>
+                        <br>
+                        </div>
+                        <hr>
+                        <!-- データベースリセット -->                        
+                        <div class="text-center">
+                            <p>データベースを意図せず変更してしまった場合は、以下のボタンで初期状態に戻してください。</p>
+                                <?php if (!empty($system_message)): ?>
+                                    <div class="alert alert-success alert-dismissible fade show text-center mx-auto" role="alert" style="max-width: 600px;">
+                                        <?= htmlspecialchars($system_message, ENT_QUOTES, 'UTF-8') ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php endif; ?>
+                                <form action="../model/ctf_prob4_reset.php" method="post" onsubmit="return confirm('データベースを初期化します。よろしいですか？');">
+                                    <button type="submit" class="btn btn-outline-primary  btn-xl mb-3 mx-lg-3">
+                                        <i class="bi bi-arrow-counterclockwise"></i> データリセット
+                                    </button>
+                                </form>
+                            <hr>
+                            <!-- ここにヒント表示 -->
+                            <h4>ヒント</h4>
+                            <p>どうしても問題が解けない場合は、以下のボタンからヒントをご覧ください</p>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <!-- ヒント 1-->
+                                    <div class="hint-item">
+                                        <a class="hint-link" data-bs-toggle="modal" href="#hintModal1">
+                                            <div class="hint-hover">
+                                                <div class="hint-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                            </div>
+                                            <img class="img-fluid w-50" src="../assets/img/image/hint2.png" alt="..." />
+                                        </a>
+                                        <div class="hint-caption">
+                                            <div class="hint-caption-heading">ヒント1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <!-- ヒント 2-->
+                                    <div class="hint-item">
+                                        <a class="hint-link" data-bs-toggle="modal" href="#hintModal2">
+                                            <div class="hint-hover">
+                                                <div class="hint-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                            </div>
+                                            <img class="img-fluid w-50" src="../assets/img/image/hint2.png" alt="..." />
+                                        </a>
+                                        <div class="hint-caption">
+                                            <div class="hint-caption-heading">ヒント2</div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <br>
+                            <br>
+                            <p class="btn btn-outline-primary btn-xl mb-3 mx-lg-3 disabled" style="width: 300px;">回答ページには<br>タブ選択で戻ってね</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-lg-center">Copyright &copy; 2025 KakidaToranosuke</div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- hint Modals-->
+        <!-- ヒント 1 modal popup-->
+        <div class="hint-modal modal fade" id="hintModal1" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">                    
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h3 class="text-uppercase">ヒント1</h3>
+                                    <p class="item-intro text-muted">UNION句を使ったカラム数予想</p>
+                                    <p>
+                                        第1問で実行したSQLクエリを用いても、管理者ユーザーに関する情報は得られないようです。<br>どうやら一度にユーザー全員を表示できないように対策されています。
+                                        <br>この場合、UNIONやORDER BYといったSQLクエリを用いてカラム数を予想しながら攻撃を実行する必要があります。<br>UNIONを用いると、2つのSELECT文を結合して利用できるようになります。<br>また、ORDER BYを用いると、指定したカラム数に基づいて結果を並び替えることができます。
+                                        <br>これらの特徴を利用して、カラム数を予想してみましょう。
+                                    </p>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        ヒントを閉じる
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ヒント 2 modal popup-->
+        <div class="hint-modal modal fade" id="hintModal2" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">                    
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h3 class="text-uppercase">ヒント2</h3>
+                                    <p class="item-intro text-muted">具体的な推定方法</p>
+                                    <p>
+                                        カラム数の予想の後はテーブル名の特定、その次はカラム名の特定と作業が進んでいきます。<br>カラム数は3つと予想すれば「' UNION SELECT 1, 2, 3 -- 」のように入力することで合っているか確認できます。
+                                        <br>カラム数が分かれば、テーブル名を「' UNION SELECT 1, group_concat(table_name), 3, 4, 5 FROM INFORMATION_SCHEMA.tables; -- 」で特定できます。<br>カラム名も同じように特定しましょう。
+                                        <br><br>group_concat関数を用いると、複数の値を1つにまとめて取得できます。<br>また、INFORMATION_SCHEMAはデータベースのメタ情報が保存されている特別なデータベースです。<br>このデータベース内のtablesテーブルには、データベース内の全テーブル名が保存されています。
+                                    </p>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        ヒントを閉じる
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Learning Vuln</title>
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="../css/styles.css"/>
+        <link rel="stylesheet" href="../css/my-sheet.css">
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+        />
+
+        <style>
+            body {
+                background-color: #cde2f5; /* うす水色 背景色指定 */
+            }
+        </style>
+        
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand">Try Harder!</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    メニュー
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="learnmenu.php" target="_blank" rel="noopener noreferrer">学習パートを別タブで開く</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead ">
+            <div class="container">
+                <h1>第1問問題ページ</h1>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section">
+            <div class="container">
+                <div class="text-center">
+                    <div class="col-md-8 mx-auto">
+                        <h2 class="section-heading text-bg-primary mb-4">　</h2>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card text-center shadow-sm mb-4 border border-dark border-2 " style="background-color: #cde2f5;">
+                            <div class="card-body">
+                                <h4 class="card-title">小手調べSQLインジェクション</h4>
+                                <p class="card-text fs-5">シナリオ：</p>
+                                <p class="card-text text-start">&emsp;ある企業の古い社内管理システムを発見しました。 このシステムには、管理者（Admin）専用のログインページがあるようです。</p>
+                                <p class="card-text fs-5">あなたの目的：</p>
+                                <p class="card-text text-start">&emsp;あなたのアカウント情報は不明です。 しかし、どうやらこのログインフォームには、先ほど学習したSQLインジェクションの脆弱性があるようです。
+                                    ユーザー名とパスワードを正しく入力せずに、学んだ知識を利用して認証を回避し、管理者としてログインしてください。</p>
+                                <p class="card-text fs-5">成功条件：</p>
+                                <p class="card-text text-start">&emsp;管理者アカウントのパスワードが今回のフラグです。フラグは { } で囲まれた文字列で、{ } も含めて答えを入力してください。</p>
+                            </div>
+                        </div>
+                        <hr>
+                        <br>
+                        <div class="text-center">
+                            <div class="border border-secondary border-2 rounded-3 ">
+                                <form action="ctf_prob1_prob.php#search_form" method="post" id="search_form" autocomplete="off">
+                                    <table class="table table-striped">
+                                        <tr>
+                                            <th>ユーザー名</th>
+                                                <td><input type="text" name="user_name" value="<?= $name_input ?>" /></td>
+                                                <td></td>
+                                            <th>パスワード</th>
+                                                <td><input type="text" name="user_pass" value="<?= $pass_input ?>" /></td>
+                                                <td>
+                                                    <div class="btn-sm">
+                                                        <input type="submit" value="検索" />
+                                                    </div>
+                                                </td>
+                                        </tr>
+                                    </table>
+                                </form>
+
+                                <h5>入力されたパスワードに該当するユーザー</h5>
+                                    <table class="table table-striped">
+                                    <tr>
+                                        <th>ユーザー名</th>
+                                        <th>ユーザーの権限</th>
+                                        <th>ユーザーのパスワード</th>
+                                    </tr>
+                                    <?php foreach ($search_result as $data){ ?>
+                                    <tr>
+                                        <td><?php print $data['user_name']; ?></td>
+                                        <td><?php print $data['user_class']; ?></td>
+                                        <td><?php print $data['user_pass']; ?></td>
+                                    </tr>
+                                    <?php } ?>
+                                    </table>
+                            </div>
+                        <br>
+                        </div>
+                        <hr>
+                        <!-- データベースリセット -->                        
+                        <div class="text-center">
+                            <p>データベースを意図せず変更してしまった場合は、以下のボタンで初期状態に戻してください。</p>
+                                <?php if (!empty($system_message)): ?>
+                                    <div class="alert alert-success alert-dismissible fade show text-center mx-auto" role="alert" style="max-width: 600px;">
+                                        <?= htmlspecialchars($system_message, ENT_QUOTES, 'UTF-8') ?>
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                    </div>
+                                <?php endif; ?>
+                                <form action="../model/ctf_prob1_reset.php" method="post" onsubmit="return confirm('データベースを初期化します。よろしいですか？');">
+                                    <button type="submit" class="btn btn-outline-primary  btn-xl mb-3 mx-lg-3">
+                                        <i class="bi bi-arrow-counterclockwise"></i> データリセット
+                                    </button>
+                                </form>
+                            <hr>
+                            <!-- ここにヒント表示 -->
+                            <h4>ヒント</h4>
+                            <p>どうしても問題が解けない場合は、以下のボタンからヒントをご覧ください</p>
+                            <div class="row justify-content-center">
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <!-- ヒント 1-->
+                                    <div class="hint-item">
+                                        <a class="hint-link" data-bs-toggle="modal" href="#hintModal1">
+                                            <div class="hint-hover">
+                                                <div class="hint-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                            </div>
+                                            <img class="img-fluid w-50" src="../assets/img/image/hint2.png" alt="..." />
+                                        </a>
+                                        <div class="hint-caption">
+                                            <div class="hint-caption-heading">ヒント1</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-sm-6 mb-4">
+                                    <!-- ヒント 2-->
+                                    <div class="hint-item">
+                                        <a class="hint-link" data-bs-toggle="modal" href="#hintModal2">
+                                            <div class="hint-hover">
+                                                <div class="hint-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                            </div>
+                                            <img class="img-fluid w-50" src="../assets/img/image/hint2.png" alt="..." />
+                                        </a>
+                                        <div class="hint-caption">
+                                            <div class="hint-caption-heading">ヒント2</div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <br>
+                            <br>
+                            <p class="btn btn-outline-primary btn-xl mb-3 mx-lg-3 disabled" style="width: 300px;">回答ページには<br>タブ選択で戻ってね</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-lg-center">Copyright &copy; 2025 KakidaToranosuke</div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- hint Modals-->
+        <!-- ヒント 1 modal popup-->
+        <div class="hint-modal modal fade" id="hintModal1" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">                    
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h3 class="text-uppercase">ヒント1</h3>
+                                    <p class="item-intro text-muted">SQLインジェクションの原理</p>
+                                    <p>学習ページの「実際にコマンドを入力してみる」で成功したコマンドを思い出してください。<br>パスワードを知らなくても、「'1'='1'（常に正しい）」 というルールを無理やり成立させれば、コンピュータを騙すことができます。</p>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        ヒントを閉じる
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ヒント 2 modal popup-->
+        <div class="hint-modal modal fade" id="hintModal2" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">                    
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <div class="col-lg-8">
+                                <div class="modal-body">
+                                    <!-- Project details-->
+                                    <h3 class="text-uppercase">ヒント2</h3>
+                                    <p class="item-intro text-muted">シングルクォートの利用</p>
+                                    <p>'1'='1'を単に入力するだけでなく、SQLクエリ全体でどのような処理になるか思い出しましょう。<br>ORとシングルクォート（'）を上手く利用することが大切です。<br>忘れた場合は学習パートを見てみましょう。</p>
+                                    <button class="btn btn-primary btn-xl text-uppercase" data-bs-dismiss="modal" type="button">
+                                        <i class="fas fa-xmark me-1"></i>
+                                        ヒントを閉じる
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>

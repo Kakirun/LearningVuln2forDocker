@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Learning Vuln</title>
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="../css/styles.css"/>
+        <link rel="stylesheet" href="../css/my-sheet.css">
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+        />
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="home.php">Learning Vuln</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    メニュー
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="index.php">注意事項</a></li>
+                        <li class="nav-item"><a class="nav-link" href="intro.php">はじめに</a></li>
+                        <li class="nav-item"><a class="nav-link" href="learnmenu.php">学習パート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="hackpage_intro.php">CTFパート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="summary.php">まとめ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead ">
+            <div class="container">
+                <h1>クロスサイトスクリプティングの対策方法</h1>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section">
+            <div class="container">
+                <div class="text-center">
+                    <div class="col-md-8 mx-auto">
+                        <h2 class="section-heading text-bg-success mb-4">　</h2>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <h4>クロスサイトスクリプティングで攻撃されないために</h4>
+                            <p class="text-start">
+                                　ここからは開発者に向けた重要な対策の話になります。<br>
+                                　先ほどの攻撃実験では、入力した<b>&lt;script&gt;</b>タグがそのままブラウザに実行されてしまいました。これを防ぐための最も基本的な対策が<b>「エスケープ処理」</b>です。<br>
+                                <br>
+                                
+                                <br>
+                                <b>・エスケープ処理（特殊文字の変換）</b><br>
+                                　Webブラウザにとって特別な意味を持つ記号（<b>&lt;</b> や <b>&gt;</b> や <b>"</b> など）を、ただの文字としての記号（特殊文字コード）に置き換える処理のことです。<br>
+                                　これにより、ブラウザは「これはプログラムの開始タグだ！」と誤解することなく、「単なる記号の文字を表示すればいいんだな」と正しく解釈できるようになります。<br>
+                                <br>
+                            </p>
+
+                            <table class="table table-striped table-bordered align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>状態</th>
+                                        <th>ブラウザへの送信内容</th>
+                                        <th>ブラウザの動作・表示</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><b>対策なし</b><br>（脆弱性あり）</td>
+                                        <td class="text-start font-monospace text-danger">
+                                            &lt;script&gt;alert(1)&lt;/script&gt;
+                                        </td>
+                                        <td class="text-start">
+                                            <span class="badge bg-danger">危険</span><br>
+                                            タグとして認識され、<b>プログラムが実行される。</b><br>
+                                            （画面には何も表示されず、裏で動く）
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>対策あり</b><br>（エスケープ済）</td>
+                                        <td class="text-start font-monospace text-success">
+                                            &amp;lt;script&amp;gt;alert(1)&amp;lt;/script&amp;gt;
+                                        </td>
+                                        <td class="text-start">
+                                            <span class="badge bg-success">安全</span><br>
+                                            ただの文字として認識され、<br>
+                                            <b>「&lt;script&gt;alert(1)&lt;/script&gt;」という文字が表示される。</b>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <p class="text-start">
+                                <br>
+                                <b>・今回の具体的な対策（PHPの場合はhtmlspecialchars関数を使う）</b><br>
+                                　PHPを使ってWebアプリを作る場合、画面に文字を表示する際（<b>echo</b>する際）には必ず <b>htmlspecialchars()</b> という関数を通すのが鉄則です。<br>
+                                <br>
+                                　修正前のコード：<br>
+                                　<b>echo $comment;</b><br>
+                                <br>
+                                　修正後の安全なコード：<br>
+                                　<b>echo htmlspecialchars($comment, ENT_QUOTES, 'UTF-8');</b><br>
+                                <br>
+                                　このように記述するだけで、<b>&lt;</b> は自動的に <b>&amp;lt;</b> に変換され、スクリプトは実行されなくなります。<br>
+                                　ちなみに <b>ENT_QUOTES</b> は「シングルクォーテーション（'）も変換対象にする」という設定です。これを忘れると属性値の中などでXSSが可能になる場合があるため、必ずつけましょう。<br>
+                                <br>
+                                <b>・HttpOnly属性の付与</b><br>
+                                　Cookieを発行する際、「HttpOnly」という属性を付与します。これを設定されたCookieは、ブラウザ上のJavaScript（<b>document.cookie</b>）から読み取ることができなくなります。つまり、もしXSSで悪意あるスクリプトが動いても、セッションIDは盗まれずに済みます。<br>
+                                　もしCookieがHttpOnly属性なしで発行されている場合、例えば「&lt;script&gt;alert(document.cookie)&lt;/script&gt;」のようなXSS攻撃でセッションIDが盗まれてしまいます。
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <br>
+                        <a href="xss_hack.php" class="btn btn-outline-info btn-xl mb-3 mx-lg-3" style="width: 300px;">← 攻撃方法を知るに戻る</a>
+                        <a href="learnmenu.php" class="btn btn-outline-primary btn-xl mb-3 mx-lg-3" style="width: 300px;">この脆弱性の学習を終わる →</a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-lg-center">Copyright &copy; 2025 KakidaToranosuke</div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>

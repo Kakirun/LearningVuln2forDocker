@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Learning Vuln</title>
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="../css/styles.css"/>
+        <link rel="stylesheet" href="../css/my-sheet.css">
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+        />
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="home.php">Learning Vuln</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    メニュー
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="index.php">注意事項</a></li>
+                        <li class="nav-item"><a class="nav-link" href="intro.php">はじめに</a></li>
+                        <li class="nav-item"><a class="nav-link" href="learnmenu.php">学習パート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="hackpage_intro.php">CTFパート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="summary.php">まとめ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead ">
+            <div class="container">
+                <h1>クロスサイトスクリプティングを行う</h1>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section">
+            <div class="container">
+                <div class="text-center">
+                    <div class="col-md-8 mx-auto">
+                        <h2 class="section-heading text-bg-info mb-4">　</h2>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <h2 class="text-danger">この攻撃手法を許可されない状況では<br>利用しないでください！</h2>
+                            <br>
+                            <h4>攻撃が成立する仕組み</h4>
+                            
+                            <p class="text-start">
+                                　WebページはHTMLという言語で構成されています。ブラウザは「ここからここまでが文章」「ここからはプログラム（Script）」という指示をタグ（<b>&lt; &gt;</b>）で判断しています。<br>
+                                　もし、掲示板への書き込み内容に「プログラムの開始タグ」が含まれていて、サイト側がそれを「ただの文字」として処理しなかった場合どうなるでしょうか？<br>
+                                　ブラウザはそれを「実行すべきプログラム」と勘違いして、攻撃者のコードを実行してしまいます。
+                            </p>
+                            <br>
+
+                            <h4>実際に攻撃を行ってみる</h4>
+                            <p class="text-start">
+                                　下部の掲示板を使って、段階的にXSSの挙動を確認してみましょう。<br>
+                                <br>
+                                <b>1. 普通の文章を入力する</b><br>
+                                　「こんにちは」や「Test」と入力して投稿ボタンを押してください。そのまま文字として表示されるはずです。<br>
+                                <br>
+                                <b>2. HTMLタグを入力してみる</b><br>
+                                　次に、文字を太字にするHTMLタグを含めて入力してみましょう。<br>
+                                　入力例：&lt;b&gt;ここは太字になります&lt;/b&gt;
+                                <button type="button" class="btn btn-outline-secondary btn-sm ms-1 me-1" onclick="copyToClipboard('<b>ここは太字になります</b>')">
+                                    <i class="bi bi-clipboard"></i> コピー
+                                </button>
+                                <br>
+                                　どうなりましたか？タグの文字（&lt;b&gt;）は消え、文字が太くなったはずです。これはブラウザが入力内容をHTMLとして解釈した証拠です。<br>
+                                <br>
+                                <b>3. JavaScriptを実行させる（XSS攻撃）</b><br>
+                                　HTMLが解釈されるということは、JavaScriptを埋め込むことも可能です。以下のコード（ペイロード）を入力して投稿してみてください。<br>
+                                　入力例：&lt;script&gt;alert('XSS成功！')&lt;/script&gt;
+                                <button type="button" class="btn btn-outline-secondary btn-sm ms-1 me-1" onclick="copyToClipboard('<script>alert(\'XSS成功！\')</script>')">
+                                    <i class="bi bi-clipboard"></i> コピー
+                                </button>
+                                <br>
+                                　画面上にポップアップ（アラート）が表示されれば、攻撃成功です！<br>
+                                　今回は無害なアラートですが、これがdocument.cookie情報を攻撃者のサーバーへ送信するコードだった場合、アカウントが乗っ取られてしまいます。<br>
+                            </p>
+                            <br>
+
+                            <div class="card mb-4 text-start border-success" style="border-width: 2px;">
+                                <div class="card-header bg-success text-white">
+                                    <i class="fas fa-bug me-2"></i><b>簡易掲示板</b>
+                                </div>
+                                <div class="card-body">
+                                    <p>ここに投稿した内容は、下の「最近の投稿」にそのまま表示されます。</p>
+                                    <form method="POST" action="xss_hack.php#search_form"  id="search_form" autocomplete="off">
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" name="comment" placeholder="メッセージを入力（例: こんにちは）" aria-label="Comment">
+                                            <button class="btn btn-primary" type="submit">投稿する</button>
+                                        </div>
+                                    </form>
+
+                                    <hr>
+                                    <h5>最近の投稿：</h5>
+                                    <div class="p-3 bg-light border rounded">
+                                        <?php 
+                                        if (!empty($comment)) {
+                                            echo "ユーザーの投稿: " . $comment; 
+                                        } else {
+                                            echo "<span class='text-muted'>まだ投稿はありません。</span>";
+                                        }
+                                        ?>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4>具体的な処理の内容</h4>
+                            <p class="text-start">
+                                　なぜ入力したスクリプトが実行されてしまったのでしょうか？<br>
+                                　このページのプログラムは、以下のように書かれています。<br>
+                                <br>
+                                <table class="table table-striped">
+                                    <tr>
+                                        <th>実行されるプログラム</th>
+                                        <th>プログラムの意味</th>
+                                    </tr>
+                                    <tr>
+                                        <td>echo $_POST['comment'];</td>
+                                        <td>入力されたcommentの内容を画面に出力する</td>
+                                    </tr>
+                                </table>
+                                <br>
+                                　このプログラムは、受け取った「comment」の中身（つまりユーザーが入力した文字列）を、<b>何のチェックも変換もせずに</b>そのまま画面に出力しています。<br>
+                                　ブラウザは、掲示板の投稿ボタンを押したときにサーバから再度送られてきたデータの中に<b>&lt;script&gt;</b>があれば、それをプログラムの命令だと信じて実行します。<br>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <br>
+                        <a href="xss_intro.php" class="btn btn-outline-info btn-xl mb-3 mx-lg-3" style="width: 300px;">← 説明に戻る</a>
+                        <a href="xss_protect.php" class="btn btn-outline-success btn-xl mb-3 mx-lg-3" style="width: 300px;">対策方法に進む →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-lg-center">Copyright &copy; 2025 KakidaToranosuke</div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>

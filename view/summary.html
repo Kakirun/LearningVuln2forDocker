@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Learning Vuln</title>
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="../css/styles.css"/>
+        <link rel="stylesheet" href="../css/my-sheet.css">
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+        />
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="home.php">Learning Vuln</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    メニュー
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="index.php">注意事項</a></li>
+                        <li class="nav-item"><a class="nav-link" href="intro.php">はじめに</a></li>
+                        <li class="nav-item"><a class="nav-link" href="learnmenu.php">学習パート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="hackpage_intro.php">CTFパート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="summary.php">まとめ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead ">
+            <div class="container">
+                <h1>まとめ</h1>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section">
+            <div class="container">
+                <div class="text-center">
+                    <div class="col-md-8 mx-auto">
+                        <h2 class="section-heading text-bg-success mb-4">　</h2>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <h4>学習目的の達成度を確認</h4>
+                            <p class="text-start">
+                                　このコンテンツ「Learning Vuln」では、Webアプリケーションに潜む脆弱性について学習・理解することが目的でした。<br>
+                                　皆さんは、このコンテンツを通じて脆弱性について学ぶことができましたか？<br>
+                                　少しでも脆弱性について理解していただければ幸いです。
+                                <br>
+                            </p>
+
+                            <h4>本コンテンツ利用後の学習の手引き</h4>
+                                <div class="text-start">
+                                    <p>
+                                        　今回学んだことは、広大な情報セキュリティの世界の入り口に過ぎません。「もっと詳しく知りたい」「より高度な技術に挑戦したい」と感じた方のために、次に進むべき学習リソースやコミュニティを紹介します。
+                                    </p>
+                                    <hr>
+
+                                    <h5 class="mt-4">書籍で体系的に学ぶ</h5>
+                                    <p>　Webアプリケーション開発の現場で必要な知識を、より深く、体系的に学ぶためのバイブル的な書籍です。</p>
+                                    <ul>
+                                        <li>
+                                            <strong>体系的に学ぶ 安全なWebアプリケーションの作り方（通称：徳丸本）</strong><br>
+                                            　Webセキュリティの第一人者である徳丸浩氏による書籍です。脆弱性の原理から対策コードまで網羅されており、開発者を目指すなら必ず手元に置いておきたい一冊です。
+                                        </li>
+                                        <li>
+                                            <strong>7日間でハッキングをはじめる本 - TryHackMeを使って身体で覚える攻撃手法と脆弱性</strong><br>
+                                            　著者の野溝のみぞう氏が、後述する学習サイト「TryHackMe」を使って、実際に手を動かしながらハッキングの手法を解説しています。座学だけでなく「体験」を通して学びたい方に最適な入門書です。
+                                        </li>
+                                    </ul>
+                                    <hr>
+
+                                    <h5 class="mt-4">常設CTFで技術を磨く</h5>
+                                    <p>　いつでも誰でも参加できるオンラインの学習プラットフォームです。ゲーム感覚で楽しみながら、より多くの脆弱性や攻撃手法を体験できます。</p>
+                                    <ul>
+                                        <li>
+                                            <strong>picoCTF</strong><br>
+                                            　カーネギーメロン大学が運営する、初心者向けの無料CTFプラットフォームです。基礎から少しずつ難易度が上がっていくため、英語ですが最初のステップとして最適です。
+                                        </li>
+                                        <li>
+                                            <strong>TryHackMe</strong><br>
+                                            　ガイド付きの演習（ルーム）を通して、ハッキングの技術を実践的に学べるサービスです。Webセキュリティだけでなく、ネットワークやサーバーの知識も身につきます。
+                                        </li>
+                                    </ul>
+                                    <hr>
+
+                                    <h5 class="mt-4">コミュニティ・イベントに参加する</h5>
+                                    <p>　国内には学生や若手エンジニアを対象としたコンテストや勉強会が多く存在します。同世代の仲間と競い合ったり、交流することで大きな刺激を受けることができます。</p>
+                                    <ul>
+                                        <li>
+                                            <strong>SECCON Beginners</strong><br>
+                                            　CTF初心者を対象とした勉強会やコンテストを開催しているコミュニティです。日本国内のイベントなので参加しやすく、解説も丁寧です。
+                                        </li>
+                                        <li>
+                                            <strong>SECCON CTF</strong><br>
+                                            <span class="badge bg-secondary">上級者向け</span><br>
+                                            　日本発の国際ハッキングコンテストです。Beginnersとは異なり、世界中のトップレベルのハッカーが参加するため難易度は非常に高いですが、予選は誰でも参加可能です。世界レベルの技術を肌で感じるための目標として最適です。
+                                        </li>
+                                        <li>
+                                            <strong>セキュリティ・キャンプ</strong><br>
+                                            　独立行政法人IPAなどが主催する、夏休みの合宿型イベント（および全国大会）です。第一線で活躍する講師から直接指導を受けられる貴重な機会で、多くの学生がここから羽ばたいています。地方開催のミニセキュリティ・キャンプは参加しやすいのでおすすめです。
+                                        </li>
+                                    </ul>
+                                    <hr>
+
+                                    <p class="mt-4">
+                                        　セキュリティの技術は日々進化しています。本コンテンツだけで学習を終わらせず、ぜひ興味のある分野へ一歩でも踏み出してみてください。まずは気になったキーワードを検索するところから！
+                                    </p>
+                                </div>
+
+                            <p class="text-start">
+                                　最後に、情報セキュリティ分野およびCTFについて学習する人々の間でしばしば使われる標語で締めくくります。
+                            </p>
+                            <h3>Try Harder!</h3>
+                            <br>
+
+                            <h2 class="section-heading text-bg-success mb-4">　</h2>
+                                <h6>助言いただいた教授</h6>
+                                <p class="text-center">
+                                    金沢工業大学情報フロンティア学部メディア情報学科 千石靖 教授<br>
+                                </p>
+                                <h6>参考文献</h6>
+                                <p class="text-center">
+                                    徳丸浩 . 体系的に学ぶ安全なWebアプリケーションの作り方 第2版 . SBクリエイティブ株式会社 , 2018 , [667] .<br>
+                                    清水祐太郎 竹迫良範 ほか . セキュリティコンテストのためのCTF問題集 . 株式会社マイナビ出版 , 2017 , [231] .<br>
+                                    金野千里 . 安全なウェブサイトの作り方 改訂第7版 . 独立行政法人情報処理推進機構 , 2021 , [111] .<br>
+                                    独立行政法人情報処理推進機構 . 2023年度宣言事業者における情報セキュリティ対策の実態調査 -調査報告書- . 独立行政法人情報処理推進機構 , 2024 , [65] .<br>
+                                </p>
+
+                                <h6>コンテンツ作成のための参考や素材の利用</h6>
+                                <p class="text-center">
+                                    Bootstrap公式サイト . 2024 . https://getbootstrap.jp/ , (参照 2025-2-1)<br>
+                                    相澤祐介 . Bootstrap 5 ファーストガイド Web制作の手間を大幅に削減！ . 株式会社カットシステム , 2022 , [385] .<br>
+                                    “Agency” . StartBootstrap . 2021 . https://startbootstrap.com/theme/agency , (参照 2025-2-1) .<br>
+                                </p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <br>
+                        <a href="home.php" class="btn btn-outline-primary btn-xl mb-3" style="width: 300px;">← ホームメニューに戻る</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-lg-center">Copyright &copy; 2025 KakidaToranosuke</div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>

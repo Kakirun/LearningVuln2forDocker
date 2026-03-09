@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Learning Vuln</title>
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link rel="stylesheet" href="../css/styles.css"/>
+        <link rel="stylesheet" href="../css/my-sheet.css">
+
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+        />
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="home.php">Learning Vuln</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    メニュー
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="index.php">注意事項</a></li>
+                        <li class="nav-item"><a class="nav-link" href="intro.php">はじめに</a></li>
+                        <li class="nav-item"><a class="nav-link" href="learnmenu.php">学習パート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="hackpage_intro.php">CTFパート</a></li>
+                        <li class="nav-item"><a class="nav-link" href="summary.php">まとめ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead ">
+            <div class="container">
+                <h1>クロスサイトスクリプティングを学ぶ</h1>
+            </div>
+        </header>
+        <!-- Services-->
+        <section class="page-section">
+            <div class="container">
+                <div class="text-center">
+                    <div class="col-md-8 mx-auto">
+                        <h2 class="section-heading text-bg-info mb-4">　</h2>
+                    </div>
+                </div>
+                <div class="row text-center justify-content-center">
+                    <div class="col-md-8">
+                        <div class="text-center">
+                            <h4>関連用語の解説</h4>
+                            <p class="text-start ">
+                                　以下に、クロスサイトスクリプティング（XSS）を理解するために不可欠な用語の解説を記載します。<br>
+                                <br>
+                                 ・<b>JavaScript</b><br>
+                                　Webブラウザ上で動作するプログラミング言語です。ポップアップを表示したり、画面のデザインを動的に変更したりする際によく使われます。<br>
+                                　非常に便利な言語ですが、XSS脆弱性があるサイトでは、攻撃者が用意した「悪意のあるJavaScript」が、被害者のブラウザ上で勝手に実行されてしまいます。これにより、Cookieの送信や偽の入力フォームの表示などが可能になります。<br>
+                                <br>
+                                ・<b>Cookie（クッキー）</b><br>
+                                　WebサーバーがWebブラウザ（ChromeやEdgeなど）に保存させる、小さなテキストデータのことです。<br>
+                                　HTTP通信は本来「1回やり取りしたら終わり」で、過去の状態を覚えられません。そこで、サーバーはブラウザに「会員証」のようなデータ（Cookie）を持たせます。次回アクセス時にブラウザがこのCookieを提示することで、サーバーは「あ、さっきログインしたAさんだね」と識別できるようになります。<br>
+                                　XSS攻撃では、この「会員証（Cookie）」を盗み出すことが主な目的の一つとなります。<br>
+                                <br>
+                                ・<b>セッション管理</b><br>
+                                　Webアプリケーションが、アクセスしてきたユーザーが「誰なのか」「ログイン済みか」といった状態（セッション）を維持・管理する仕組みのことです。<br>
+                                　一般的に、サーバー側で発行したランダムなID（セッションID）をCookieに保存してやり取りします。もし攻撃者にセッションIDが含まれたCookieを盗まれると、攻撃者がそのユーザーになりすまして操作できるようになります。これを「セッションハイジャック」と呼びます。<br>
+                                <br>
+                                ・<b>HTTPヘッダー</b><br>
+                                　Webブラウザとサーバーが通信する際、HTMLデータなどの本体（ボディ）の前に送受信される「通信の制御情報」のことです。<br>
+                                　手紙に例えると、封筒に書かれた「宛先」や「取扱い注意事項」にあたります。ここにはCookie情報も含まれます。<br>
+                                　また、XSS対策として「このサイトでは許可されたスクリプト以外実行しない」といったセキュリティ設定（Content-Security-Policyなど）をHTTPヘッダーに記述することもあります。<br>
+                            </p>
+                            <br>
+                            
+                            <h4>想定される被害</h4>
+                            
+                            <p class="text-start">
+                                ・<b>セッションハイジャック（なりすまし）</b><br>
+                                　ユーザーのCookie（セッションID）を盗み出し、そのユーザーになりすまして不正送金やメッセージの送信、個人情報の閲覧を行う。
+                                <br>
+                                ・<b>フィッシング詐欺</b><br>
+                                　本物のサイト上に偽のログインフォームを表示させ、パスワードやクレジットカード情報を入力させる。
+                                <br>
+                                ・<b>マルウェアへの誘導</b><br>
+                                　サイトを閲覧した瞬間に、ウイルス配布サイトへ強制的に転送（リダイレクト）させる。
+                            </p>
+                            <br>
+                            <h4>まとめると…</h4>
+                            <p class="text-start">
+                                　クロスサイトスクリプティングを実行されると、ユーザーのブラウザ上で攻撃者のプログラムが動き出し、アカウント乗っ取りなどの深刻な被害につながる！<br>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <br>
+                        <a href="learnmenu.php" class="btn btn-outline-primary btn-xl mb-3 mx-lg-3" style="width: 300px;">← 学習パート画面に戻る</a>
+                        <a href="xss_hack.php" class="btn btn-outline-info btn-xl mb-3 mx-lg-3" style="width: 300px;">攻撃方法を知る →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Footer-->
+        <footer class="footer py-4">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-12 text-lg-center">Copyright &copy; 2025 KakidaToranosuke</div>
+                </div>
+            </div>
+        </footer>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="../js/scripts.js"></script>
+    </body>
+</html>
