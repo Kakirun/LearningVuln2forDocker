@@ -1,19 +1,16 @@
-# LearningVuln2
-This project is secret.<br>
-2025/09/06 This repository forked to local repository.<br>
+# LearningVuln2forDocker
+2026/03/09 This repository is made<br>
 
 ## LearningVulnの使い方
-LearningVulnは、xamppを用いて起動するように作成しています。
-データベースの作成などを含めて、以下の通り起動してください。
+LearningVulnのDocker版です。
+Dockerの基本的な環境構築は行われている前程で、以下の操作を行ってください。
 
-1. バージョン8.2.12のxamppをダウンロードしておきます。
+1. 任意のディレクトリにGitHubからコードをダウンロード（クローン）する
+git clone https://github.com/Kakirun/LearningVuln2forDocker.git
 
-2. xamppインストール後、ファイルマネージャーを開いて、「C:\xampp\htdocs」のフォルダに「LearningVuln2」のフォルダを作成して、本リポジトリの内容全てをコピー＆ペーストします。
+2. ダウンロードしたディレクトリに移動し、Dockerを起動する
+ターミナル（コマンドプロンプト）で以下のコマンドを実行します。
+docker-compose up -d
 
-3. LearningVuln2のフォルダを開くと「assets」というフォルダの中に「learningvulndb2.sql」というデータベースの情報が保存されたファイルがあります。そちらを利用して、データベースを作成します。
-
-4. コマンドプロンプトなどでmysqlを利用します。rootユーザーでログイン後、「CREATE DATABASE learningvulndb2」とコマンドを入力します。
-
-5. 次に「mysql -u root -p learningvulndb2 < C:\xampp\htdocs\LearningVuln2\assets\learningvulndb2.sql」と入力します。これでデータベースが作成されます。（パスワードを聞かれても、rootユーザーでログインしている場合はそのままEnterキーを入力すれば次に進みます）
-
-6. xamppでApacheとMySQLが起動していることを確認してから、ブラウザを開き、URL入力欄に「http://localhost/LearningVuln2/ctrl/index.php」と入力します。「LearningVulnを始める前に」という画面が表示されていれば、無事に起動できています。
+3. ブラウザでアクセスする
+http://localhost:8080 にアクセスすれば、アプリケーションが利用できます。
