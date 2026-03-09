@@ -3,7 +3,7 @@
 function db_connect(){
     $host     = "db";
     $dbname   = "learningvulndb2";
-    $user     = "root";
+    $user     = "user";
     $password = "password";
 
     // MySQL接続

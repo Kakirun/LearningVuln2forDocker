@@ -17,7 +17,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword # ルートパスワード
       MYSQL_DATABASE: learningvulndb2   # 作成するデータベース名
-      MYSQL_USER: root                  # 作成するユーザー名
+      MYSQL_USER: user                  # 作成するユーザー名
       MYSQL_PASSWORD: password          # ユーザーのパスワード
     ports:
       - "3306:3306"
