@@ -3,7 +3,7 @@ version: '3.8'
 services:
   # 1. Webサーバ＆PHPのコンテナ
   web:
-    image: php:8.2-apache # 使用していたPHPのバージョンに合わせる
+    build: . # 使用していたPHPのバージョンに合わせる,Dockerfileがあるディレクトリを指定
     ports:
       - "8080:80" # ブラウザから localhost:8080 でアクセスできるようにする
     volumes:
