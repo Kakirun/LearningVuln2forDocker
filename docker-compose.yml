@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # 1. Webサーバ＆PHPのコンテナ
+  web:
+    image: php:8.2-apache # 使用していたPHPのバージョンに合わせる
+    ports:
+      - "8080:80" # ブラウザから localhost:8080 でアクセスできるようにする
+    volumes:
+      - ./src:/var/www/html # srcフォルダの中身をコンテナの公開ディレクトリに同期
+    depends_on:
+      - db
+
+  # 2. データベースのコンテナ
+  db:
+    image: mariadb:10.4 # 使用していたDBのバージョンに合わせる
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword # ルートパスワード
+      MYSQL_DATABASE: learningvulndb2   # 作成するデータベース名
+      MYSQL_USER: root                  # 作成するユーザー名
+      MYSQL_PASSWORD: password          # ユーザーのパスワード
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql # データを永続化する設定
+      - ./initdb:/docker-entrypoint-initdb.d # 起動時に init.sql を自動実行する設定
+
+volumes:
+  db-data: # データベース保存用のボリューム
